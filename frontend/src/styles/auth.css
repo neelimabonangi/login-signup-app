@@ -1,0 +1,58 @@
+.auth-bg {
+  min-height: 100vh;
+  background: linear-gradient(120deg, #607d8b, #26a69a);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-card {
+  background: #fff;
+  padding: 40px;
+  width: 420px;
+  border-radius: 6px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.auth-card h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin: 10px 0;
+}
+
+.gradient-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(to right, #7b8dff, #58e2c2);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.switch-text {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
