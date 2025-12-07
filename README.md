@@ -38,25 +38,3 @@ A full-stack web application that implements a complete **Sign Up / Login authen
 
 ---
 
-## 📂 Project Structure
-
-login-signup-app/
-├── backend/
-│ ├── routes/
-│ ├── middleware/
-│ ├── server.js
-│ ├── db.js
-│ ├── package.json
-│ └── .env
-│
-├── frontend/
-│ ├── src/
-│ │ ├── pages/
-│ │ ├── components/
-│ │ ├── App.jsx
-│ │ └── main.jsx
-│ ├── index.html
-│ ├── vite.config.js
-│ └── package.json
-│
-└── .gitignore
