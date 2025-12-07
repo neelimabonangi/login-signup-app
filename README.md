@@ -61,6 +61,8 @@ cd frontend
 npm install
 npm run dev
 
+---
+
 🌐 Deployment
 
 Backend deployed on Render
@@ -68,6 +70,8 @@ Backend deployed on Render
 Frontend deployed on Vercel
 
 Environment variables used to connect frontend to backend securely
+
+---
 
 ✅ Authentication Flow
 
