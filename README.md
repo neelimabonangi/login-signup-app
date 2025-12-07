@@ -51,15 +51,18 @@ Create a `.env` file inside the **backend** folder:
 
 ### 1️⃣ Start Backend
 
+```bash
 cd backend
 npm install
 npm start
 
 ### 2️⃣ Start Frontend
 
+```bash
 cd frontend
 npm install
 npm run dev
+
 
 ---
 
