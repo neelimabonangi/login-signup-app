@@ -49,35 +49,6 @@ A complete **full-stack authentication system** with **Signup, Login, Protected 
 ✅ Clean and responsive UI  
 ✅ Environment variable configuration  
 
----
 
 
-## 📂 Project Structure
-
-login-signup-app/
-│
-├── backend/
-│ ├── server.js
-│ ├── db.js
-│ ├── routes/
-│ │ └── authRoutes.js
-│ ├── package.json
-│ └── .env
-│
-├── frontend/
-│ ├── src/
-│ │ ├── pages/
-│ │ │ ├── Login.jsx
-│ │ │ ├── Signup.jsx
-│ │ │ └── Dashboard.jsx
-│ │ ├── styles/
-│ │ │ ├── login.css
-│ │ │ └── auth.css
-│ │ ├── AuthContext.jsx
-│ │ ├── App.jsx
-│ │ └── main.jsx
-│ ├── .env
-│ └── package.json
-│
-└── README.md
 
