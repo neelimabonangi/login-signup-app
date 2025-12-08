@@ -24,27 +24,26 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    if (!form.agree)
-      return setError("You must agree to the terms of service");
-    if (form.password !== form.confirmPassword)
-      return setError("Passwords do not match");
+  if (!form.agree)
+    return setError("You must agree to the terms of service");
+  if (form.password !== form.confirmPassword)
+    return setError("Passwords do not match");
 
-    try {
-      const res = await axios.post(`${API_BASE}/api/auth/signup`, {
-        name: form.name,
-        email: form.email,
-        password: form.password,
-      });
+  try {
+    await axios.post(`${API_BASE}/api/auth/signup`, {
+      name: form.name,
+      email: form.email,
+      password: form.password,
+    });
 
-      login(res.data.user, res.data.token);
-      navigate("/dashboard");
-    } catch (err) {
-      setError(err.response?.data?.message || "Signup failed");
-    }
-  };
+    navigate("/login"); // ✅ Redirect to login after signup
+  } catch (err) {
+    setError(err.response?.data?.message || "Signup failed");
+  }
+};
 
   return (
     <div className="auth-bg">
