@@ -1,43 +1,57 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const pool = require("../db");
+const jwtAuth = require("../middleware/jwtAuth");
 
-// ✅ DEFINE ROUTER (THIS WAS MISSING)
 const router = express.Router();
 
-/**
- * LOGIN
- * POST /api/auth/login
- */
-router.post("/login", async (req, res) => {
+
+// 🔹 SIGNUP
+router.post("/signup", async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "Missing fields" });
+  }
+
   try {
-    console.log("📩 Login request body:", req.body);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const { email, password } = req.body;
+    await pool.query(
+      "INSERT INTO users (name, email, password) VALUES ($1, $2, $3)",
+      [name, email, hashedPassword]
+    );
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email and password required" });
+    res.json({ message: "Signup successful" });
+  } catch (err) {
+    if (err.code === "23505") {
+      return res.status(400).json({ message: "User already exists" });
     }
+    res.status(500).json({ message: "Signup failed" });
+  }
+});
 
-    const [rows] = await pool.query(
-      "SELECT * FROM users WHERE email = ?",
+
+// 🔹 LOGIN
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const result = await pool.query(
+      "SELECT * FROM users WHERE email = $1",
       [email]
     );
 
-    if (rows.length === 0) {
-      return res.status(400).json({ message: "User not found" });
+    if (result.rows.length === 0) {
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const user = rows[0];
+    const user = result.rows[0];
+    const match = await bcrypt.compare(password, user.password);
 
-    const isMatch = await bcrypt.compare(password, user.password_hash);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Incorrect password" });
-    }
-
-    if (!process.env.JWT_SECRET) {
-      throw new Error("JWT_SECRET is missing");
+    if (!match) {
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     const token = jwt.sign(
@@ -46,63 +60,23 @@ router.post("/login", async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    res.json({
-      user: { id: user.id, name: user.name, email: user.email },
-      token,
-    });
+    res.json({ token });
   } catch (err) {
-    console.error("🔥 LOGIN ERROR FULL:", err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Login failed" });
   }
 });
 
-/**
- * SIGNUP
- * POST /api/auth/signup
- */
-router.post("/signup", async (req, res) => {
-  try {
-    console.log("📩 Signup request body:", req.body);
 
-    const { name, email, password } = req.body;
-
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-
-    const [existing] = await pool.query(
-      "SELECT id FROM users WHERE email = ?",
-      [email]
-    );
-
-    if (existing.length > 0) {
-      return res.status(400).json({ message: "Email already exists" });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const [result] = await pool.query(
-      "INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)",
-      [name, email, hashedPassword]
-    );
-
-    const user = { id: result.insertId, name, email };
-
-    const token = jwt.sign(
-      user,
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
-
-    res.status(201).json({ user, token });
-  } catch (err) {
-    console.error("🔥 SIGNUP ERROR FULL:", err);
-    res.status(500).json({ message: "Server error" });
-  }
+// 🔹 PROTECTED ROUTE
+router.get("/profile", jwtAuth, (req, res) => {
+  res.json({
+    message: "Access granted",
+    user: req.user
+  });
 });
 
-// ✅ EXPORT ROUTER (IMPORTANT)
 module.exports = router;
+
 
 
 
