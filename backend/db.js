@@ -1,5 +1,4 @@
 const mysql = require("mysql2/promise");
-require("dotenv").config();
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -9,13 +8,12 @@ const pool = mysql.createPool({
   port: process.env.DB_PORT || 3306,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0,
 });
 
 (async () => {
   try {
     const conn = await pool.getConnection();
-    console.log("✅ MySQL connected successfully");
+    console.log("✅ MySQL connected (Railway public)");
     conn.release();
   } catch (err) {
     console.error("❌ MySQL connection failed:", err.message);
@@ -23,6 +21,7 @@ const pool = mysql.createPool({
 })();
 
 module.exports = pool;
+
 
 
 
