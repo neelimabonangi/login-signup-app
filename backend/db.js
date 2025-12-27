@@ -1,14 +1,12 @@
 const { Pool } = require("pg");
 
-// Create PostgreSQL connection using Supabase DB_URL
 const pool = new Pool({
   connectionString: process.env.DB_URL,
-  ssl: {
-    rejectUnauthorized: false, // required for Supabase
-  },
+  ssl: { rejectUnauthorized: false },
+  family: 4 // 👈 FORCE IPv4 (THIS FIXES ENETUNREACH)
 });
 
-// Test connection once on startup
+// Test connection
 pool
   .connect()
   .then(client => {
@@ -20,6 +18,7 @@ pool
   });
 
 module.exports = pool;
+
 
 
 
