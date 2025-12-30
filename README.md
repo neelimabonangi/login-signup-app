@@ -30,10 +30,26 @@ A full-stack web application that implements a complete **Sign Up / Login authen
 - bcrypt (for password hashing)
 
 ### Database
-- MySQL
+- PostgreSQL
 
 ### Deployment
-- Frontend: Vercel  
-- Backend: Render  
+- Frontend: Netlify  
+- Backend: Render
+
+### 🚀 Deployment Links
+
+🔹 Frontend (Netlify)
+
+Live URL:
+👉 https://login-signupapp.netlify.app/
+
+🔹 Backend (Render)
+
+API Base URL:
+👉 https://auth-backend-ffqr.onrender.com
+
+Test endpoint:
+👉 https://auth-backend-ffqr.onrender.com/db-test
+
 
 
